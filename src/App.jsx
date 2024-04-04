@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Library from './components/Library';
+import Home from './components/Home';
+import Login from './components/Login';
+// import Gallery from './components/Gallery';
+// import BiOdyssey from './components/BiOdyssey';
+// import Kitchen from './components/Kitchen';
+// import Rhythm from './components/Rhythm';
+// import Words from './components/Words';
+// import Grind from './components/Grind';
+// import Ethos from './components/Ethos';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="nav">
+        <div>
+          <a href="/">Home</a>
+        </div>
+        <div>
+          <a href="/library">Library</a>
+        </div>
+        <div>
+          <a href="/login">Log in</a>
+        </div>
+        {/* <div>
+          <a href="/gallery">Gallery</a>
+        </div>
+        <div>
+          <a href="/biodyssey">BiOdyssey</a>
+        </div>
+        <div>
+          <a href="/kitchen">Kitchen</a>
+        </div>
+        <div>
+          <a href="/rhythm">Rhythm</a>
+        </div>
+        <div>
+          <a href="/words">Words</a>
+        </div>
+        <div>
+          <a href="/grind">Grind</a>
+        </div>
+        <div>
+          <a href="/ethos">Ethos</a>
+        </div> */}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <Routes classNam>
+        <Route path="/library" element={<Library />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/gallery" element={<Gallery />} />
+        <Route path="/biodyssey" element={<BiOdyssey />} />
+        <Route path="/kitchen" element={<Kitchen />} />
+        <Route path="/rhythm" element={<Rhythm />} />
+        <Route path="/words" element={<Words />} />
+        <Route path="/grind" element={<Grind />} />
+        <Route path="/ethos" element={<Ethos />} /> */}
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
+  );
 }
+
 
 export default App
