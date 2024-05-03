@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import Alerts from "./Alerts";
 
 const INITIAL_FORM_DATA = {
@@ -7,7 +8,7 @@ const INITIAL_FORM_DATA = {
   password: "",
 };
 
-function Login() {
+function Login({login}) {
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [alerts, setAlerts] = useState([]);
   const navigate = useNavigate();
@@ -28,11 +29,12 @@ function Login() {
     });
 
     if (response.ok) {
+      login(formData.username);
       navigate("/");
     } else {
       // Handle errors, e.g., show a login error message
       const data = await response.json();
-      setAlerts(data.errors);
+      setAlerts([data.detail]);
     }
   }
 
@@ -76,5 +78,9 @@ function Login() {
     </div>
   );
 }
+
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+  };
 
 export default Login;
