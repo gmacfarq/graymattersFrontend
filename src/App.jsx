@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Library from './components/Library';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -11,52 +12,68 @@ import Login from './components/Login';
 // import Ethos from './components/Ethos';
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    if (username) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  function login(username) {
+    localStorage.setItem("username", username);
+    setIsLoggedIn(true);
+  }
+
+  function logout() {
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+  }
+
   return (
     <Router>
       <div className="nav">
         <div>
-          <a href="/">Home</a>
+          <Link to="/">Home</Link>
         </div>
         <div>
-          <a href="/library">Library</a>
+          <Link to="/library">Library</Link>
         </div>
+        {!isLoggedIn &&
+
         <div>
-          <a href="/login">Log in</a>
+          <Link to="/login">Log in</Link>
         </div>
+        }
         {/* <div>
-          <a href="/gallery">Gallery</a>
+          <Link to="/gallery">Gallery</Link>
         </div>
         <div>
-          <a href="/biodyssey">BiOdyssey</a>
+          <Link to="/biodyssey">BiOdyssey</Link>
         </div>
         <div>
-          <a href="/kitchen">Kitchen</a>
+          <Link to="/kitchen">Kitchen</Link>
         </div>
         <div>
-          <a href="/rhythm">Rhythm</a>
+          <Link to="/rhythm">Rhythm</Link>
         </div>
         <div>
-          <a href="/words">Words</a>
-        </div>
-        <div>
-          <a href="/grind">Grind</a>
-        </div>
-        <div>
-          <a href="/ethos">Ethos</a>
+          <Link to="/ethos">Ethos</Link>
         </div> */}
       </div>
-      <Routes classNam>
+      <Routes>
         <Route path="/library" element={<Library />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login login={login} />} />
         {/* <Route path="/gallery" element={<Gallery />} />
         <Route path="/biodyssey" element={<BiOdyssey />} />
         <Route path="/kitchen" element={<Kitchen />} />
-        <Route path="/rhythm" element={<Rhythm />} />
-        <Route path="/words" element={<Words />} />
-        <Route path="/grind" element={<Grind />} />
+        <Route path="/rhythms" element={<Rhythm />} />
         <Route path="/ethos" element={<Ethos />} /> */}
         <Route path="/" element={<Home />} />
       </Routes>
+      {isLoggedIn && <button onClick={logout}>Logout</button>}
     </Router>
   );
 }
