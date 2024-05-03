@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider";
 import PropTypes from "prop-types";
 import Alerts from "./Alerts";
 
@@ -8,7 +10,8 @@ const INITIAL_FORM_DATA = {
   password: "",
 };
 
-function Login({login}) {
+function Login() {
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [alerts, setAlerts] = useState([]);
   const navigate = useNavigate();
