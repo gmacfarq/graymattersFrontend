@@ -1,9 +1,9 @@
-import { useState} from 'react';
 import { AuthContext } from '../AuthProvider';
 import { useContext } from 'react';
+import BookForm from './BookForm';
 
 function Library() {
-  const {isLoggedIn, login, logout} = useContext(AuthContext);
+  const {isLoggedIn} = useContext(AuthContext);
 
   return (
     <div>
@@ -13,7 +13,7 @@ function Library() {
       </p>
       {isLoggedIn &&
        <div>
-        <p>I am logged in</p>
+        <BookForm/>
         </div>
       }
     </div>
