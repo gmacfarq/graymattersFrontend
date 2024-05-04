@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import PropTypes from "prop-types";
 import Alerts from "./Alerts";
+import GrayAPI from "../Api";
 
 const INITIAL_FORM_DATA = {
   username: "",
@@ -19,27 +20,24 @@ function Login() {
   /** handle form submission */
   async function handleSubmit(evt) {
     evt.preventDefault();
-    const response = await fetch("http://localhost:8000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-      }),
-      credentials: "include", // Necessary for cookies to be sent and received
-    });
-
-    if (response.ok) {
+  try {
+    const response = await GrayAPI.sendLogin(formData);
+    if (response && response.message === "Logged in") {
       login(formData.username);
       navigate("/");
     } else {
       // Handle errors, e.g., show a login error message
-      const data = await response.json();
-      setAlerts([data.detail]);
+      if (response && response.detail) {
+        setAlerts([response.detail]);
+      } else {
+        setAlerts(["Unknown error occurred"]);
+      }
     }
+  } catch (error) {
+    console.error("Error occurred:", error);
+    setAlerts(["An error occurred while processing your request"]);
   }
+}
 
   /** Update form input. */
   function handleChange(evt) {
